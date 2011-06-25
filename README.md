@@ -1,7 +1,9 @@
 WordPress PKV MindBody
 ======================
 
-The wp-pkv-mindbody WordPress plugin provides integration with the [MindBody](http://mindbodyonline.com) scheduling software used by (Parkour Visions)[http://parkourvisions.org]. It's designed to fit the needs of the Parkour Visions website, but it may be of some use to other users of MindBody as well.
+The wp-pkv-mindbody WordPress plugin provides integration with the [MindBody](http://mindbodyonline.com) scheduling software used by [Parkour Visions](http://parkourvisions.org). It's designed to fit the needs of the Parkour Visions website, but it may be of some use to other users of MindBody as well.
+
+
 
 Features
 --------
