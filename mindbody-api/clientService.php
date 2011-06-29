@@ -1,5 +1,5 @@
 <?php
-require_once("mbapi.php");
+require_once("mbApi.php");
 
 class MBClientService extends MBAPIService 
 {
