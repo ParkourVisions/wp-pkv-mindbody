@@ -198,6 +198,7 @@ function pkv_mindbody_update_user_profile() {
  */
 function pkv_mindbody_redirect_page() {
   global $post;
+  global $pkv_error;
 
   // If they've submitted the login form, save their credentials. This might not be the right action.
   // If this succeeds, it should just go right on to the redirect.
@@ -221,6 +222,7 @@ function pkv_mindbody_redirect_page() {
 
         // No username/password set! Forget it.
         if (empty($mindbody_username) || empty($mindbody_password)) {
+          $pkv_error = "username or password are empty";
           return;
         }
 
@@ -240,7 +242,6 @@ function pkv_mindbody_redirect_page() {
         $result = $clientService->ValidateLogin($mindbody_username, $mindbody_password);
 
         if ($result == NULL || $result->ValidateLoginResult->Status == "InvalidParameters") {
-          global $pkv_error;
           $pkv_error = "The MindBody login information we have for you isn't correct. Please re-enter it.";
           return;
         }
@@ -268,14 +269,14 @@ function pkv_mindbody_redirect_page() {
 function pkv_mindbody_login_form() {
   global $pkv_error;
 
-  // Display an error if there was one
-  if (defined($pkv_error) && !empty($pkv_error)) {
-    echo "<div class=\"mindbody-error\">" . $pkv_error . "</div>";
-  }
-
   // This function needs to return a string instead of appending directly to the output
   // so we turn on output buffering and grab the contents using ob_get_contents
   ob_start();
+
+  // Display an error if there was one
+  if (isset($pkv_error) && !empty($pkv_error)) {
+    echo "<div class=\"mindbody-error\">" . $pkv_error . "</div>";
+  }
 ?>
 <form method="post" action="<?php echo get_permalink() ?>" id="loginform" name="loginform">
 	<p>
