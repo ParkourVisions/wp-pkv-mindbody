@@ -34,24 +34,6 @@ Written by Ben Hollis <ben@benhollis.net> for Parkour Visions.
 */
 
 /**
- * Activate hook - called when the plugin is activated from the UI
- * See http://codex.wordpress.org/Function_Reference/register_activation_hook
- */
-function pkv_mindbody_activate() {
-}
-
-
-/**
- * Deactivate hook - called when the plugin is deactivated from the UI
- * See http://codex.wordpress.org/Function_Reference/register_uninstall_hook
- */
-function pkv_mindbody_uninstall() {
-}
-
-register_activation_hook(__FILE__, 'pkv_mindbody_activate');
-register_uninstall_hook(__FILE__, 'pkv_mindbody_uninstall');
-
-/**
  * Hook run at init, used to set up the pkv-mindbody plugin on each request.
  * See http://codex.wordpress.org/Plugin_API/Action_Reference/init
  */
