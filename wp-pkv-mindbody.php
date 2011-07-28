@@ -222,7 +222,6 @@ function pkv_mindbody_redirect_page() {
 
         // No username/password set! Forget it.
         if (empty($mindbody_username) || empty($mindbody_password)) {
-          $pkv_error = "username or password are empty";
           return;
         }
 
@@ -243,6 +242,11 @@ function pkv_mindbody_redirect_page() {
 
         if ($result == NULL || $result->ValidateLoginResult->Status == "InvalidParameters") {
           $pkv_error = "The MindBody login information we have for you isn't correct. Please re-enter it.";
+
+          // Clear their username and password
+          delete_user_meta($user_ID, 'mindbody_username');
+          delete_user_meta($user_ID, 'mindbody_password');
+
           return;
         }
         
@@ -252,8 +256,8 @@ function pkv_mindbody_redirect_page() {
         $mb_url = "https://clients.mindbodyonline.com/ASP/ws.asp?studioid=" . $siteID . "&guid=" . $guid;
         header('Location: ' . $mb_url);
       } else {
-        // redirect to the login form!
-        header('Location: ' . site_url("/wp-login.php") . "?redirect_to=" . urlencode(get_permalink()));
+        // We'll show a log-in form
+        $pkv_error = 'Not logged in';
       }
     }
   }
@@ -275,9 +279,22 @@ function pkv_mindbody_login_form() {
 
   // Display an error if there was one
   if (isset($pkv_error) && !empty($pkv_error)) {
-    echo "<div class=\"mindbody-error\">" . $pkv_error . "</div>";
+    // If they're not logged in, show the wordpress login formx
+    if ($pkv_error == 'Not logged in') {
+        rpx_login_form();
+        $output = ob_get_contents();
+        ob_end_clean();
+        $output = str_replace('Or log in with', 'Log in with your existing account first', $output);
+        return $output;
+    }
+
+    echo "<div style=\"color:red\" class=\"mindbody-error\">" . $pkv_error . "</div>";
   }
+
+  // Otherwise, show the mindbody credentials form.
+  // TODO: Show a mindbody registration option
 ?>
+
 <form method="post" action="<?php echo get_permalink() ?>" id="loginform" name="loginform">
 	<p>
 		<label>MindBody Username<br>
